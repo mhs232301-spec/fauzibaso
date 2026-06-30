@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV. Nur Fauzi Baso - Gas & Air Galon</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        .pilihan-aktif { border-color: #2563eb; background-color: #eff6ff; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <header class="bg-blue-600 text-white py-6 px-4 text-center sticky top-0 z-50 shadow-md">
+        <h1 class="text-2xl font-bold tracking-wide">CV. NUR FAUZI BASO</h1>
+        <p class="text-sm opacity-90 mt-1">Solusi Gas & Air Galon Pesan-Antar Anda</p>
+        <div class="bg-yellow-400 text-blue-900 text-xs font-semibold py-1 px-2 rounded-full mt-2 inline-block animate-pulse">
+            📅 Harga Bulan Juni 2026
+        </div>
+    </header>
+
+    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mx-4 mt-4 rounded shadow-sm text-sm">
+        <p class="font-bold text-blue-800">Assalamualaikum Wr. Wb. / Tabe Bapak/Ibu,</p>
+        <p class="text-gray-700 mt-1">Kami siap mengantar pesanan langsung ke rumah Anda. <strong>GRATIS ONGKIR</strong> khusus wilayah:</p>
+        <p class="text-xs text-blue-900 font-medium mt-1">Perumahan Rindini Green Life 2, Bumi Panaikang Mas, Cluster Hidayat, & Perumahan Panaikang Indah.</p>
+    </div>
+
+    <main class="p-4 max-w-md mx-auto space-y-6 pb-32">
+
+        <section>
+            <h2 class="text-lg font-bold text-gray-700 border-b-2 border-blue-500 pb-1 mb-3">🔥 Pilihan Gas LPG</h2>
+            <div class="space-y-3" id="produk-gas">
+                </div>
+        </section>
+
+        <section>
+            <h2 class="text-lg font-bold text-gray-700 border-b-2 border-blue-500 pb-1 mb-3">💧 Air Galon (Galon Baru Semua)</h2>
+            <div class="space-y-3" id="produk-galon"></div>
+        </section>
+
+        <section>
+            <h2 class="text-lg font-bold text-gray-700 border-b-2 border-blue-500 pb-1 mb-3">📦 Air Kemasan Dos</h2>
+            <div class="space-y-3" id="produk-dos"></div>
+        </section>
+
+        <section class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 space-y-4">
+            <h2 class="text-lg font-bold text-gray-700 border-b pb-1">📍 Data Pengiriman</h2>
+            
+            <div>
+                <label class="text-xs font-semibold text-gray-600 block mb-1">Nama Lengkap</label>
+                <input type="text" id="nama" placeholder="Contoh: Ibu Rahma" class="w-full border p-2 rounded-lg focus:outline-blue-500">
+            </div>
+
+            <div>
+                <label class="text-xs font-semibold text-gray-600 block mb-1">Lokasi Rumah / Perumahan</label>
+                <select id="lokasi" class="w-full border p-2 rounded-lg bg-white focus:outline-blue-500">
+                    <option value="Perumahan Rindini Green Life 2">Perumahan Rindini Green Life 2 (Free Ongkir)</option>
+                    <option value="Bumi Panaikang Mas">Bumi Panaikang Mas (Free Ongkir)</option>
+                    <option value="Cluster Hidayat">Cluster Hidayat (Free Ongkir)</option>
+                    <option value="Perumahan Panaikang Indah">Perumahan Panaikang Indah (Free Ongkir)</option>
+                    <option value="Luar Kompleks">Luar Kompleks (+ Ongkir)</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="text-xs font-semibold text-gray-600 block mb-1">Alamat Lengkap (Blok & No. Rumah)</label>
+                <textarea id="alamat" rows="2" placeholder="Contoh: Blok B4 No. 12" class="w-full border p-2 rounded-lg focus:outline-blue-500"></textarea>
+            </div>
+
+            <div>
+                <label class="text-xs font-semibold text-gray-600 block mb-1">Metode Pembayaran</label>
+                <select id="pembayaran" class="w-full border p-2 rounded-lg bg-white focus:outline-blue-500">
+                    <option value="COD / Bayar di Tempat">Bayar di Tempat (COD)</option>
+                    <option value="Transfer Bank Mandiri (174-00-0567894-1 a/n ANDI BASO)">Transfer Bank Mandiri</option>
+                    <option value="QRIS (CV. NUR FAUZI BASO)">QRIS (CV. NUR FAUZI BASO)</option>
+                </select>
+            </div>
+        </section>
+    </main>
+
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg max-w-md mx-auto">
+        <div class="flex justify-between items-center mb-3">
+            <div>
+                <p class="text-xs text-gray-500">Total Belanja:</p>
+                <p class="text-xl font-bold text-blue-600" id="total-harga">Rp 0</p>
+            </div>
+            <button onclick="kirimWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl flex items-center gap-2 shadow transition-all">
+                🚀 Pesan via WA
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // DATA PRODUK (Bapak sisa tambah/ubah array ini kalau mau nambah produk baru di kemudian hari)
+        const produkData = [
+            // Kategori Gas
+            { id: 1, kategori: 'gas', nama: 'Gas 12Kg (Isi Ulang)', harga: 280000 },
+            { id: 2, kategori: 'gas', nama: 'Gas 5.5Kg (Isi Ulang)', harga: 150000 },
+            { id: 3, kategori: 'gas', nama: 'Gas 5.5Kg (Tabung + Isi)', harga: 550000 },
+            { id: 4, kategori: 'gas', nama: 'Gas 3Kg (Isi Ulang)', harga: 22000 },
+            { id: 5, kategori: 'gas', nama: 'Gas 3Kg (Tabung + Isi)', harga: 270000 },
+
+            // Kategori Air Galon
+            { id: 6, kategori: 'galon', nama: 'Air Galon Biasa (Isi Ulang)', harga: 5000 },
+            { id: 7, kategori: 'galon', nama: 'Air Galon Biasa (+ Galon Baru)', harga: 55000 },
+            { id: 8, kategori: 'galon', nama: 'CLUB Galon (Isi Ulang)', harga: 270000 },
+            { id: 9, kategori: 'galon', nama: 'CLUB Galon (+ Galon Baru)', harga: 85000 },
+            { id: 10, kategori: 'galon', nama: 'VIT Galon (Isi Ulang)', harga: 30000 },
+            { id: 11, kategori: 'galon', nama: 'VIT Galon (+ Galon Baru)', harga: 85000 },
+            { id: 12, kategori: 'galon', nama: 'CLEO Galon (Isi Ulang)', harga: 32000 },
+            { id: 13, kategori: 'galon', nama: 'CLEO Galon (+ Galon Baru)', harga: 75000 },
+            { id: 14, kategori: 'galon', nama: 'AQUA Galon (Isi Ulang)', harga: 60000 },
+            { id: 15, kategori: 'galon', nama: 'AQUA Galon (+ Galon Baru)', harga: 100000 },
+            { id: 16, kategori: 'galon', nama: 'Le Minerale 15 Liter', harga: 42000 },
+
+            // Kategori Air Dos
+            { id: 17, kategori: 'dos', nama: 'CELEBES @230Ml', harga: 22000 },
+            { id: 18, kategori: 'dos', nama: 'Club @240Ml', harga: 25000 },
+            { id: 19, kategori: 'dos', nama: 'CLUB @330Ml', harga: 42000 },
+            { id: 20, kategori: 'dos', nama: 'CLUB @600Ml', harga: 45000 },
+            { id: 21, kategori: 'dos', nama: 'AQUA @220Ml', harga: 32000 },
+            { id: 22, kategori: 'dos', nama: 'AQUA @330Ml', harga: 50000 },
+            { id: 23, kategori: 'dos', nama: 'AQUA @600Ml', harga: 60000 },
+            { id: 24, kategori: 'dos', nama: 'Le Minerale @330Ml', harga: 50000 },
+            { id: 25, kategori: 'dos', nama: 'Le Minerale @600Ml', harga: 70000 },
+            { id: 26, kategori: 'dos', nama: 'Le Minerale @1500Ml', harga: 85000 },
+            { id: 27, kategori: 'dos', nama: 'Cleo @220', harga: 32000 }
+        ];
+
+        let keranjang = {};
+
+        // Format angka ke Rupiah
+        function formatRupiah(angka) {
+            return 'Rp ' + angka.toLocaleString('id-ID');
+        }
+
+        // Render Produk ke Halaman
+        function renderProduk() {
+            produkData.forEach(p => {
+                const el = `
+                    <div class="bg-white p-3 rounded-xl flex justify-between items-center border border-gray-100 shadow-xs">
+                        <div>
+                            <p class="font-semibold text-sm text-gray-800">${p.nama}</p>
+                            <p class="text-xs text-blue-600 font-medium">${formatRupiah(p.harga)}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="ubahJumlah(${p.id}, -1)" class="w-7 h-7 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-bold flex items-center justify-center text-gray-600">-</button>
+                            <span id="qty-${p.id}" class="text-sm font-bold w-4 text-center">0</span>
+                            <button onclick="ubahJumlah(${p.id}, 1)" class="w-7 h-7 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg text-sm font-bold flex items-center justify-center">+</button>
+                        </div>
+                    </div>
+                `;
+                document.getElementById(`produk-${p.kategori}`).innerHTML += el;
+            });
+        }
+
+        // Fungsi Tambah / Kurang Jumlah Orderan
+        function ubahJumlah(id, delta) {
+            if (!keranjang[id]) keranjang[id] = 0;
+            keranjang[id] += delta;
+            
+            if (keranjang[id] <= 0) {
+                keranjang[id] = 0;
+            }
+            
+            document.getElementById(`qty-${id}`).innerText = keranjang[id];
+            hitungTotal();
+        }
+
+        // Hitung Total Belanja Keseluruhan
+        function hitungTotal() {
+            let total = 0;
+            for (let id in keranjang) {
+                const prod = produkData.find(p => p.id == id);
+                total += keranjang[id] * prod.harga;
+            }
+            document.getElementById('total-harga').innerText = formatRupiah(total);
+        }
+
+        // Generator Link API WhatsApp untuk kirim pesanan otomatis
+        function kirimWhatsApp() {
+            const nama = document.getElementById('nama').value;
+            const lokasi = document.getElementById('lokasi').value;
+            const alamat = document.getElementById('alamat').value;
+            const pembayaran = document.getElementById('pembayaran').value;
+
+            if (!nama || !alamat) {
+                alert('Mohon isi nama dan alamat lengkap rumah Bapak/Ibu terlebih dahulu.');
+                return;
+            }
+
+            let textItem = '';
+            let total = 0;
+
+            for (let id in keranjang) {
+                if (keranjang[id] > 0) {
+                    const prod = produkData.find(p => p.id == id);
+                    const subtotal = keranjang[id] * prod.harga;
+                    textItem += `- ${prod.nama} (x${keranjang[id]}) : ${formatRupiah(subtotal)}\n`;
+                    total += subtotal;
+                }
+            }
+
+            if (total === 0) {
+                alert('Pilih minimal 1 produk sebelum melakukan pemesanan.');
+                return;
+            }
+
+            // Format Pesanan Teks WhatsApp
+            const nomorWA = "6281241118100"; // Nomor WA Utama Pak Andi Baso
+            const pesan = `Halo *CV. NUR FAUZI BASO*, saya mau pesan via Web:\n\n` +
+                          `*Daftar Pesanan:*\n${textItem}\n` +
+                          `*Total Belanja:* ${formatRupiah(total)}\n\n` +
+                          `*Data Pengiriman:*\n` +
+                          `- *Nama:* ${nama}\n` +
+                          `- *Lokasi:* ${lokasi}\n` +
+                          `- *Alamat:* ${alamat}\n` +
+                          `- *Metode Pembayaran:* ${pembayaran}\n\n` +
+                          `Mohon segera diproses dan diantarkan ke rumah, terima kasih.`;
+
+            const url = `https://api.whatsapp.com/send?phone=${nomorWA}&text=${encodeURIComponent(pesan)}`;
+            window.open(url, '_blank');
+        }
+
+        // Jalankan render saat halaman pertama kali dibuka
+        window.onload = renderProduk;
+    </script>
+</body>
+</html>
