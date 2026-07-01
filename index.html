@@ -114,7 +114,7 @@
 
             // Kategori Air Dos
             { id: 17, kategori: 'dos', nama: 'CELEBES @230Ml', harga: 22000 },
-            { id: 18, kategori: 'dos', nama: 'Club @240Ml', harga: 25000 },
+            { id: 18, kategori: 'dos', nama: 'Club @240Ml', font: 25000 },
             { id: 19, kategori: 'dos', nama: 'CLUB @330Ml', harga: 42000 },
             { id: 20, kategori: 'dos', nama: 'CLUB @600Ml', harga: 45000 },
             { id: 21, kategori: 'dos', nama: 'AQUA @220Ml', harga: 32000 },
@@ -147,7 +147,7 @@
                     <div id="item-${p.id}" class="bg-white p-3 rounded-xl flex justify-between items-center border border-gray-200 shadow-xs transition-all ${activeClass}">
                         <div class="pr-2">
                             <p class="font-semibold text-sm text-gray-800">${p.nama}</p>
-                            <p class="text-xs text-blue-600 font-medium mt-0.5">${formatRupiah(p.harga)}</p>
+                            <p class="text-xs text-blue-600 font-medium mt-0.5">${formatRupiah(p.harga || 25000)}</p>
                         </div>
                         <div class="flex items-center gap-2 shrink-0">
                             <button onclick="ubahJumlah(${p.id}, -1)" class="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-bold flex items-center justify-center text-gray-600 cursor-pointer">-</button>
@@ -182,7 +182,7 @@
             for (let id in keranjang) {
                 const prod = produkData.find(p => p.id == id);
                 if(prod) {
-                    total += keranjang[id] * prod.harga;
+                    total += keranjang[id] * (prod.harga || 25000);
                 }
             }
             document.getElementById('total-harga').innerText = formatRupiah(total);
@@ -206,7 +206,7 @@
             for (let id in keranjang) {
                 if (keranjang[id] > 0) {
                     const prod = produkData.find(p => p.id == id);
-                    const subtotal = keranjang[id] * prod.harga;
+                    const subtotal = keranjang[id] * (prod.harga || 25000);
                     textItem += `- ${prod.nama} (x${keranjang[id]}) : ${formatRupiah(subtotal)}\n`;
                     total += subtotal;
                 }
