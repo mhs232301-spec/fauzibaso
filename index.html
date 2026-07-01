@@ -6,7 +6,7 @@
     <title>CV. Nur Fauzi Baso - Gas & Air Galon</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        .pilihan-aktif { border-color: #2563eb; background-color: #eff6ff; }
+        .pilihan-aktif { border-color: #2563eb !important; background-color: #eff6ff !important; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
@@ -29,8 +29,7 @@
 
         <section>
             <h2 class="text-lg font-bold text-gray-700 border-b-2 border-blue-500 pb-1 mb-3">🔥 Pilihan Gas LPG</h2>
-            <div class="space-y-3" id="produk-gas">
-                </div>
+            <div class="space-y-3" id="produk-gas"></div>
         </section>
 
         <section>
@@ -78,20 +77,20 @@
         </section>
     </main>
 
-    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg max-w-md mx-auto">
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg max-w-md mx-auto z-50">
         <div class="flex justify-between items-center mb-3">
             <div>
                 <p class="text-xs text-gray-500">Total Belanja:</p>
                 <p class="text-xl font-bold text-blue-600" id="total-harga">Rp 0</p>
             </div>
-            <button onclick="kirimWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl flex items-center gap-2 shadow transition-all">
+            <button onclick="kirimWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl flex items-center gap-2 shadow transition-all cursor-pointer">
                 🚀 Pesan via WA
             </button>
         </div>
     </div>
 
     <script>
-        // DATA PRODUK (Bapak sisa tambah/ubah array ini kalau mau nambah produk baru di kemudian hari)
+        // DATA PRODUK
         const produkData = [
             // Kategori Gas
             { id: 1, kategori: 'gas', nama: 'Gas 12Kg (Isi Ulang)', harga: 280000 },
@@ -136,17 +135,25 @@
 
         // Render Produk ke Halaman
         function renderProduk() {
+            // Bersihkan isi element sebelum me-render ulang agar tidak duplikat
+            document.getElementById('produk-gas').innerHTML = '';
+            document.getElementById('produk-galon').innerHTML = '';
+            document.getElementById('produk-dos').innerHTML = '';
+
             produkData.forEach(p => {
+                const qtyAct = keranjang[p.id] || 0;
+                const activeClass = qtyAct > 0 ? 'pilihan-aktif' : '';
+
                 const el = `
-                    <div class="bg-white p-3 rounded-xl flex justify-between items-center border border-gray-100 shadow-xs">
-                        <div>
+                    <div id="item-${p.id}" class="bg-white p-3 rounded-xl flex justify-between items-center border border-gray-200 shadow-xs transition-all ${activeClass}">
+                        <div class="pr-2">
                             <p class="font-semibold text-sm text-gray-800">${p.nama}</p>
-                            <p class="text-xs text-blue-600 font-medium">${formatRupiah(p.harga)}</p>
+                            <p class="text-xs text-blue-600 font-medium mt-0.5">${formatRupiah(p.harga)}</p>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="ubahJumlah(${p.id}, -1)" class="w-7 h-7 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-bold flex items-center justify-center text-gray-600">-</button>
-                            <span id="qty-${p.id}" class="text-sm font-bold w-4 text-center">0</span>
-                            <button onclick="ubahJumlah(${p.id}, 1)" class="w-7 h-7 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg text-sm font-bold flex items-center justify-center">+</button>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button onclick="ubahJumlah(${p.id}, -1)" class="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-bold flex items-center justify-center text-gray-600 cursor-pointer">-</button>
+                            <span id="qty-${p.id}" class="text-sm font-bold w-6 text-center">${qtyAct}</span>
+                            <button onclick="ubahJumlah(${p.id}, 1)" class="w-8 h-8 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg text-sm font-bold flex items-center justify-center cursor-pointer">+</button>
                         </div>
                     </div>
                 `;
@@ -161,6 +168,9 @@
             
             if (keranjang[id] <= 0) {
                 keranjang[id] = 0;
+                document.getElementById(`item-${id}`).classList.remove('pilihan-aktif');
+            } else {
+                document.getElementById(`item-${id}`).classList.add('pilihan-aktif');
             }
             
             document.getElementById(`qty-${id}`).innerText = keranjang[id];
@@ -172,16 +182,18 @@
             let total = 0;
             for (let id in keranjang) {
                 const prod = produkData.find(p => p.id == id);
-                total += keranjang[id] * prod.harga;
+                if(prod) {
+                    total += keranjang[id] * prod.harga;
+                }
             }
             document.getElementById('total-harga').innerText = formatRupiah(total);
         }
 
-        // Generator Link API WhatsApp untuk kirim pesanan otomatis
+        // Generator Link API WhatsApp
         function kirimWhatsApp() {
-            const nama = document.getElementById('nama').value;
+            const nama = document.getElementById('nama').value.trim();
             const lokasi = document.getElementById('lokasi').value;
-            const alamat = document.getElementById('alamat').value;
+            const alamat = document.getElementById('alamat').value.trim();
             const pembayaran = document.getElementById('pembayaran').value;
 
             if (!nama || !alamat) {
@@ -206,8 +218,7 @@
                 return;
             }
 
-            // Format Pesanan Teks WhatsApp
-            const nomorWA = "6281241118100"; // Nomor WA Utama Pak Andi Baso
+            const nomorWA = "6281241118100";
             const pesan = `Halo *CV. NUR FAUZI BASO*, saya mau pesan via Web:\n\n` +
                           `*Daftar Pesanan:*\n${textItem}\n` +
                           `*Total Belanja:* ${formatRupiah(total)}\n\n` +
@@ -222,7 +233,6 @@
             window.open(url, '_blank');
         }
 
-        // Jalankan render saat halaman pertama kali dibuka
         window.onload = renderProduk;
     </script>
 </body>
