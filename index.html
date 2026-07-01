@@ -135,7 +135,6 @@
 
         // Render Produk ke Halaman
         function renderProduk() {
-            // Bersihkan isi element sebelum me-render ulang agar tidak duplikat
             document.getElementById('produk-gas').innerHTML = '';
             document.getElementById('produk-galon').innerHTML = '';
             document.getElementById('produk-dos').innerHTML = '';
@@ -177,7 +176,7 @@
             hitungTotal();
         }
 
-        // Hitung Total Belanja Keseluruhan
+        // Hitung Total Belanja
         function hitungTotal() {
             let total = 0;
             for (let id in keranjang) {
@@ -189,7 +188,7 @@
             document.getElementById('total-harga').innerText = formatRupiah(total);
         }
 
-        // Generator Link API WhatsApp
+        // Generator Link API WhatsApp & Pengiriman Database
         function kirimWhatsApp() {
             const nama = document.getElementById('nama').value.trim();
             const lokasi = document.getElementById('lokasi').value;
@@ -218,6 +217,24 @@
                 return;
             }
 
+            // --- PROSES KIRIM DATA OTOMATIS KE GOOGLE SHEETS ---
+            const urlSheets = "https://script.google.com/macros/s/AKfycbx-aS-zrxZFev6JZaPtVCqkxP2secxiyVIQrri_iL_ByMlIICYzmQuVqyzQO-G6OLpyww/exec";
+            
+            fetch(urlSheets, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nama: nama,
+                    lokasi: lokasi,
+                    alamat: alamat,
+                    detail_pesanan: textItem,
+                    pembayaran: pembayaran,
+                    total_harga: total
+                })
+            }).catch(err => console.error("Gagal mencatat ke Sheets:", err));
+
+            // --- PROSES BUKA WHATSAPP ---
             const nomorWA = "6281241118100";
             const pesan = `Halo *CV. NUR FAUZI BASO*, saya mau pesan via Web:\n\n` +
                           `*Daftar Pesanan:*\n${textItem}\n` +
